@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RayZ Store - Moon Knight Digital Services</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        moon: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            800: '#0f172a',
+                            900: '#090d16',
+                            950: '#030712',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        khonshu: '#e2e8f0'
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'moon-glow': '0 0 25px -5px rgba(226, 232, 240, 0.3), 0 0 10px -5px rgba(245, 158, 11, 0.2)',
+                        'gold-glow': '0 0 20px -3px rgba(245, 158, 11, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .bg-moon-gradient {
+            background: radial-gradient(circle at 50% 10%, #1e293b 0%, #0f172a 50%, #030712 100%);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.12);
+        }
+
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card-hover:hover {
+            transform: translateY(-5px);
+            border-color: rgba(245, 158, 11, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.25);
+        }
+
+        @keyframes moonPulse {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(226, 232, 240, 0.4)); }
+            50% { filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.6)); }
+        }
+
+        .animated-moon {
+            animation: moonPulse 4s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .float-anim {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-moon-950 text-slate-100 font-sans min-h-screen relative overflow-x-hidden selection:bg-gold-500 selection:text-black flex flex-col justify-between">
+
+    <!-- Canvas Background for Animated Starry Sky -->
+    <canvas id="stars-canvas"></canvas>
+
+    <!-- Background Crescent Glow Aura -->
+    <div class="fixed -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-b from-slate-300/10 via-amber-500/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col min-h-screen justify-between w-full">
+        
+        <header class="text-center pt-6 pb-8">
+            <!-- Moon Knight Symbol -->
+            <div class="inline-block relative mb-4 float-anim">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-slate-900 border-2 border-slate-700/60 flex items-center justify-center shadow-moon-glow">
+                    <svg class="w-12 h-12 text-khonshu animated-moon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2a10 10 0 1 0 10 10 10.011 10.011 0 0 0-10-10zm0 18a8 8 0 1 1 8-8 8.01 8.01 0 0 1-8 8z" opacity="0.2"/>
+                        <path d="M12 2a10 10 0 0 1 10 10 10.011 10.011 0 0 1-10 10 8 8 0 0 0 0-16 9.956 9.956 0 0 1 0-4z"/>
+                    </svg>
+                </div>
+                <div class="absolute -bottom-1 -right-1 bg-gold-500 text-slate-950 text-xs font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                    Official
+                </div>
+            </div>
+
+            <!-- Brand Title -->
+            <h1 class="font-cinzel text-4xl sm:text-6xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-khonshu to-amber-300 drop-shadow-md">
+                RAYZ STORE
+            </h1>
+            <p class="mt-3 text-slate-400 font-medium text-sm sm:text-base max-w-xl mx-auto flex items-center justify-center gap-2">
+                <span class="h-px w-8 bg-gold-500/50"></span>
+                <span>Layanan Digital Cepat, Aman & Terpercaya</span>
+                <span class="h-px w-8 bg-gold-500/50"></span>
+            </p>
+
+            <!-- Status Indicator -->
+            <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>Layanan Aktif & Siap Melayani 24/7</span>
+            </div>
+        </header>
+
+        <main class="space-y-8 my-auto">
+            
+            <div class="text-center mb-6">
+                <h2 class="font-cinzel text-2xl font-bold text-slate-200 tracking-wide flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-moon text-gold-400"></i>
+                    KATALOG LAYANAN UTAMA
+                    <i class="fa-solid fa-moon text-gold-400"></i>
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">Pilih paket layanan Anda dan hubungi admin langsung via WhatsApp!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- SERVICE CARD 1: SEWA WHATSAPP -->
+                <div class="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between border-t-2 border-t-amber-500/50">
+                    <div class="absolute -top-12 -right-12 w-28 h-28 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+                    
+                    <div>
+                        <div class="flex items-start justify-between gap-3 mb-4">
+                            <div>
+                                <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
+                                    Hot Offer 🔥
+                                </span>
+                                <h3 class="font-cinzel text-xl font-bold text-white mt-2">
+                                    SEWA WHATSAPP (WA)
+                                </h3>
+                                <p class="text-xs text-amber-300/90 font-semibold mt-0.5">CUAN CEPAT!</p>
+                            </div>
+                            <div class="p-3 bg-slate-800/80 rounded-xl text-amber-400 border border-slate-700">
+                                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <div class="mb-5 p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+                            <span class="text-xs text-slate-400">💬 Rate per pesan:</span>
+                            <span class="font-bold text-amber-400 text-sm">600 Perak</span>
+                        </div>
+
+                        <div class="space-y-2 mb-6">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">📦 Paket Sewa:</p>
+
+                            <div class="flex justify-between items-center p-2.5 rounded-lg bg-slate-800/40 hover:bg-slate-800/70 transition-colors text-sm border border-slate-800">
+                                <span class="text-slate-300 flex items-center gap-2"><i class="fa-regular fa-clock text-amber-400 text-xs"></i> ⏱️ 1 Menit</span>
+                                <span class="font-bold text-emerald-400">10K</span>
+                            </div>
+
+                            <div class="flex justify-between items-center p-2.5 rounded-lg bg-slate-800/40 hover:bg-slate-800/70 transition-colors text-sm border border-slate-800">
+                                <span class="text-slate-300 flex items-center gap-2"><i class="fa-regular fa-clock text-amber-400 text-xs"></i> ⏱️ 10 Menit</span>
+                                <span class="font-bold text-emerald-400">150K</span>
+                            </div>
+
+                            <div class="flex justify-between items-center p-2.5 rounded-lg bg-slate-800/40 hover:bg-slate-800/70 transition-colors text-sm border border-slate-800">
+                                <span class="text-slate-300 flex items-center gap-2"><i class="fa-regular fa-clock text-amber-400 text-xs"></i> ⏱️ 1 Jam</span>
+                                <span class="font-bold text-emerald-400">1 Juta</span>
+                            </div>
+
+                            <div class="p-2.5 rounded-lg bg-amber-500/5 border border-amber-500/20 text-xs text-amber-200/80 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-info text-amber-400"></i>
+                                <span>⏱️ Tersedia durasi lebih lama sesuai kebutuhan!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/6285713141796?text=Halo%20Admin%20RayZ%20Store,%20saya%20mau%20sewa%20WhatsApp" 
+                       target="_blank"
+                       class="w-full py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 flex items-center justify-center gap-2 transition-all shadow-gold-glow active:scale-95">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Sewa WA Sekarang</span>
+                    </a>
+                </div>
+
+                <!-- SERVICE CARD 2: STOR GMAIL -->
+                <div class="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between border-t-2 border-t-sky-400/50">
+                    <div class="absolute -top-12 -right-12 w-28 h-28 bg-sky-500/10 rounded-full blur-xl pointer-events-none"></div>
+
+                    <div>
+                        <div class="flex items-start justify-between gap-3 mb-4">
+                            <div>
+                                <span class="bg-sky-500/10 text-sky-400 border border-sky-500/30 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
+                                    Instant Cashout ⚡
+                                </span>
+                                <h3 class="font-cinzel text-xl font-bold text-white mt-2">
+                                    STOR GMAIL
+                                </h3>
+                                <p class="text-xs text-sky-300/90 font-semibold mt-0.5">PROSES Cepat & PRAKTIS 🇮🇩</p>
+                            </div>
+                            <div class="p-3 bg-slate-800/80 rounded-xl text-sky-400 border border-slate-700">
+                                <i class="fa-regular fa-envelope text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <div class="mb-5 p-4 rounded-xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 border border-sky-500/30 text-center relative overflow-hidden">
+                            <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-1">PER GMAIL DIBAYAR</p>
+                            <div class="text-3xl font-extrabold text-sky-300 tracking-wide">
+                                2K <span class="text-sm font-normal text-slate-300">(IDR) 🇮🇩</span>
+                            </div>
+                            <p class="text-[11px] text-amber-300 mt-2 font-medium">💸 Dapatkan uangmu sekarang! 🫵⚡</p>
+                        </div>
+
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center gap-3 text-sm text-slate-300 p-2.5 rounded-lg bg-slate-800/30 border border-slate-800">
+                                <i class="fa-solid fa-bolt text-sky-400 text-base"></i>
+                                <span>⚡ Proses cepat & praktis.</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-slate-300 p-2.5 rounded-lg bg-slate-800/30 border border-slate-800">
+                                <i class="fa-solid fa-envelope-circle-check text-emerald-400 text-base"></i>
+                                <span>📩 Hubungi admin sekarang sebelum slot penuh!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/6285713141796?text=Halo%20Admin%20RayZ%20Store,%20saya%20mau%20stor%20Gmail" 
+                       target="_blank"
+                       class="w-full py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-slate-950 flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Stor Gmail Sekarang</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Contact Box Section -->
+            <section class="mt-8 glass-card rounded-2xl p-6 text-center border border-slate-700/60">
+                <h3 class="font-cinzel text-xl font-bold text-white mb-2">Butuh Bantuan / Tanya Paket Lain?</h3>
+                <p class="text-xs text-slate-300 mb-4">Admin RayZ Store selalu aktif untuk melayani transaksi & pertanyaan Anda.</p>
+                <a href="https://wa.me/6285713141796" 
+                   target="_blank"
+                   class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-lg active:scale-95">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Hubungi Admin WA (+62 857-1314-1796)</span>
+                </a>
+            </section>
+
+        </main>
+
+        <footer class="mt-12 text-center text-xs text-slate-500 space-y-2 border-t border-slate-800/80 pt-6">
+            <p>&copy; 2026 <span class="text-amber-400 font-semibold">RayZ Store</span>. All rights reserved.</p>
+            <p class="text-[11px] text-slate-600">Moon Knight Theme Services Landing Page</p>
+        </footer>
+
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6285713141796" 
+       target="_blank"
+       title="Hubungi Admin WhatsApp"
+       class="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-400 text-slate-950 p-4 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 group">
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
+        <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 ease-in-out font-bold text-xs group-hover:ml-2">
+            Chat Admin WA
+        </span>
+    </a>
+
+    <script>
+        // Canvas Starfield Effect
+        const canvas = document.getElementById('stars-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        const numStars = 70;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5 + 0.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.02 + 0.005
+                });
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(226, 232, 240, ${Math.max(0, star.alpha)})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        window.onload = function() {
+            resizeCanvas();
+            initStars();
+            animateStars();
+        };
+
+        window.onresize = function() {
+            resizeCanvas();
+            initStars();
+        };
+    </script>
+</body>
+</html>
